@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 325884325
+    locked: 0
+  - name: Collidable
+    uniqueID: 2629094219
+    locked: 0
   - name: Player
     uniqueID: 3871428247
     locked: 0
