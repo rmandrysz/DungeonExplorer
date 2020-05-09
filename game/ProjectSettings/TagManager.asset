@@ -16,7 +16,7 @@ TagManager:
   - Ground
   - Walls
   - Player
-  - 
+  - Enemies
   - 
   - 
   - 
@@ -47,6 +47,9 @@ TagManager:
   - name: Collidable
     uniqueID: 2629094219
     locked: 0
-  - name: Player
+  - name: Player&Enemies
     uniqueID: 3871428247
+    locked: 0
+  - name: 
+    uniqueID: 2926842975
     locked: 0
