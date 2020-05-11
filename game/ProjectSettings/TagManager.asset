@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - SpawnPoint
+  - Room
+  - RoomTemplates
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - Walls
   - Player
   - Enemies
-  - 
+  - SpawnPoints
   - 
   - 
   - 
@@ -38,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2926842975
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -49,7 +55,4 @@ TagManager:
     locked: 0
   - name: Player&Enemies
     uniqueID: 3871428247
-    locked: 0
-  - name: 
-    uniqueID: 2926842975
     locked: 0
