@@ -16,6 +16,10 @@ public class RoomSpawner : MonoBehaviour
     private int rand;
     private bool spawned = false;
 
+    [Space]
+    [Header("Generation Position Offsets:")]
+    private Vector3 rightOffset = new Vector3(-0.5f, -0.5f, 0);
+
     private void Start()
     {
         templates = GameObject.FindGameObjectWithTag("RoomTemplates").GetComponent<RoomTemplates>();
@@ -31,25 +35,25 @@ public class RoomSpawner : MonoBehaviour
             if (doorDir == 1)
             {
                 rand = Random.Range(0, templates.rightRooms.Length);
-                Instantiate(templates.rightRooms[rand], transform.position, templates.rightRooms[rand].transform.rotation);
+                Instantiate(templates.rightRooms[rand], transform.position + rightOffset, templates.rightRooms[rand].transform.rotation);
             }
 
             if (doorDir == 2)
             {
                 rand = Random.Range(0, templates.bottomRooms.Length);
-                Instantiate(templates.bottomRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation);
+                Instantiate(templates.bottomRooms[rand], transform.position + rightOffset, templates.bottomRooms[rand].transform.rotation);
             }
 
             if (doorDir == 3)
             {
                 rand = Random.Range(0, templates.leftRooms.Length);
-                Instantiate(templates.leftRooms[rand], transform.position, templates.leftRooms[rand].transform.rotation);
+                Instantiate(templates.leftRooms[rand], transform.position + rightOffset, templates.leftRooms[rand].transform.rotation);
             }
 
             if (doorDir == 4)
             {
                 rand = Random.Range(0, templates.topRooms.Length);
-                Instantiate(templates.topRooms[rand], transform.position, templates.topRooms[rand].transform.rotation);
+                Instantiate(templates.topRooms[rand], transform.position + rightOffset, templates.topRooms[rand].transform.rotation);
             }
 
         }
