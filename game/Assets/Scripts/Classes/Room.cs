@@ -4,30 +4,33 @@ using UnityEngine;
 
 public class Room
 {
-    public Vector2Int roomCoordinate;
+    public Vector2Int arrayCoordinate;
     public Dictionary<string, Room> neighbors;
+    public Vector2 instantiationCoordinate;
 
-    public Room(int givenX, int givenY)
+    public Room(int givenX, int givenY, float instantiateX, float instantiateY)
     {
-        this.roomCoordinate = new Vector2Int(givenX, givenY);
-        this.neighbors = new Dictionary<string, Room>();
+        arrayCoordinate = new Vector2Int(givenX, givenY);
+        instantiationCoordinate = new Vector2(instantiateX, instantiateY);
+
+        neighbors = new Dictionary<string, Room>();
     }
 
-    public Room(Vector2Int givenRoomCoordinate)
+    public Room(Vector2Int givenArrayCoordinate, Vector2 givenInstantiationCoordinate)
     {
-        this.roomCoordinate = givenRoomCoordinate;
-        this.neighbors = new Dictionary<string, Room>();
+        arrayCoordinate = givenArrayCoordinate;
+        neighbors = new Dictionary<string, Room>();
+
+        instantiationCoordinate = givenInstantiationCoordinate;
     }
 
-    public List<Vector2Int> NeighborCoordinates()
+    public Dictionary<Vector2Int, Vector2> NeighborCoordinates()
     {
-        List<Vector2Int> neighborCoordinates = new List<Vector2Int>();
-        if(roomCoordinate.x != 0)
-            neighborCoordinates.Add (new Vector2Int(this.roomCoordinate.x - 1, this.roomCoordinate.y));
-        neighborCoordinates.Add (new Vector2Int(this.roomCoordinate.x, this.roomCoordinate.y + 1));
-        neighborCoordinates.Add (new Vector2Int(this.roomCoordinate.x + 1, this.roomCoordinate.y));
-        if(roomCoordinate.y != 0)
-            neighborCoordinates.Add (new Vector2Int(this.roomCoordinate.x, this.roomCoordinate.y - 1));
+        Dictionary<Vector2Int, Vector2> neighborCoordinates = new Dictionary<Vector2Int, Vector2>();
+        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x - 1, this.arrayCoordinate.y), new Vector2 (this.instantiationCoordinate.x - 15f, this.instantiationCoordinate.y));
+        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x + 1, this.arrayCoordinate.y), new Vector2 (this.instantiationCoordinate.x + 15f, this.instantiationCoordinate.y));
+        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x, this.arrayCoordinate.y + 1), new Vector2 (this.instantiationCoordinate.x, this.instantiationCoordinate.y + 15f));
+        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x, this.arrayCoordinate.y - 1), new Vector2 (this.instantiationCoordinate.x, this.instantiationCoordinate.y - 15f));
 
         return neighborCoordinates;
     }
@@ -36,17 +39,17 @@ public class Room
     {
         string dir;
 
-        if(neighbor.roomCoordinate.x < this.roomCoordinate.x)
+        if(neighbor.arrayCoordinate.x < this.arrayCoordinate.x)
         {
             dir = "L";
         }
-        else if (neighbor.roomCoordinate.y > this.roomCoordinate.y)
-        {
-            dir = "T";
-        }
-        else if (neighbor.roomCoordinate.x > this.roomCoordinate.x)
+        else if (neighbor.arrayCoordinate.x > this.arrayCoordinate.x)
         {
             dir = "R";
+        }
+        else if (neighbor.arrayCoordinate.y > this.arrayCoordinate.y)
+        {
+            dir = "T";
         }
         else
         {
@@ -54,5 +57,22 @@ public class Room
         }
 
         this.neighbors.Add (dir, neighbor);
+    }
+
+    public string PrefabName()
+    {
+        string name = "Room_";
+
+        foreach(KeyValuePair<string, Room> neighborPair in neighbors)
+        {
+            name += neighborPair.Key;
+        }
+
+        return name;
+    }
+
+    public Room Neighbor(string direction)
+    {
+        return neighbors[direction];
     }
 }

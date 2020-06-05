@@ -2,27 +2,47 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Xml.Serialization;
+using UnityEditor.Experimental.SceneManagement;
 using UnityEngine;
 
 public class RoomGeneration : MonoBehaviour
 {
 
-    public GameObject roomPrefab;
+    private static RoomGeneration instance;
 
 
     private int numberOfRooms;
     private Room[,] rooms;
     private Room currentRoom;
 
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            DontDestroyOnLoad(this.gameObject);
+            instance = this;
+            numberOfRooms = Random.Range(8, 13);
+            //Debug.Log(numberOfRooms);
+            GenerateDungeon();
+            GameObject player = (GameObject)Instantiate(Resources.Load("Prefabs/Player"));
+        }
+        else
+        {
+
+            Input.ResetInputAxes();
+            Destroy (this.gameObject);
+        }
+    }
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        numberOfRooms = Random.Range(8, 13);
-        Debug.Log(numberOfRooms);
-        currentRoom = GenerateDungeon();
-        PrintGrid();
+        //Debug.Log(numberOfRooms);
+        GenerateDungeon();
+        SpawnRooms();
+        //PrintGrid();
     }
 
     private Room GenerateDungeon()
@@ -31,28 +51,29 @@ public class RoomGeneration : MonoBehaviour
         rooms = new Room[gridSize, gridSize];
 
         Vector2Int firstRoomCoord = new Vector2Int((gridSize / 2) - 1, (gridSize / 2) - 1);
+        Vector2 firstRoomInstantiation = new Vector2(-0.5f, 0);
         Queue<Room> roomsToCreate = new Queue<Room>();
         List<Room> createdRooms = new List<Room>();
 
 
-        roomsToCreate.Enqueue(new Room(firstRoomCoord));
+        roomsToCreate.Enqueue(new Room(firstRoomCoord, firstRoomInstantiation));
 
-        while(roomsToCreate.Count > 0 && createdRooms.Count < numberOfRooms)
+        while (roomsToCreate.Count > 0 && createdRooms.Count < numberOfRooms)
         {
             Room currentRoom = roomsToCreate.Dequeue();
 
-            rooms[currentRoom.roomCoordinate.x, currentRoom.roomCoordinate.y] = currentRoom;
+            rooms[currentRoom.arrayCoordinate.x, currentRoom.arrayCoordinate.y] = currentRoom;
             createdRooms.Add(currentRoom);
             AddNeighbors(currentRoom, roomsToCreate);
         }
 
-        foreach(Room room in createdRooms)
+        foreach (Room room in createdRooms)
         {
-            List<Vector2Int> neighborCoordinates = room.NeighborCoordinates();
+            Dictionary<Vector2Int, Vector2> neighborCoordinates = room.NeighborCoordinates();
 
-            foreach(Vector2Int coordinate in neighborCoordinates)
+            foreach (KeyValuePair<Vector2Int, Vector2> coordinates in neighborCoordinates)
             {
-                Room neighbor = rooms[coordinate.x, coordinate.y];
+                Room neighbor = rooms[coordinates.Key.x, coordinates.Key.y];
 
                 if (neighbor != null)
                 {
@@ -66,31 +87,33 @@ public class RoomGeneration : MonoBehaviour
 
     private void AddNeighbors(Room currentRoom, Queue<Room> roomsToCreate)
     {
-        List<Vector2Int> neighborCoordinates = currentRoom.NeighborCoordinates();
-        List<Vector2Int> availableNeighbors = new List<Vector2Int>();
+        Dictionary<Vector2Int, Vector2> neighborCoordinates = currentRoom.NeighborCoordinates();
+        Dictionary<Vector2Int, Vector2> availableNeighbors = new Dictionary<Vector2Int, Vector2>();
 
-        foreach(Vector2Int coordinate in neighborCoordinates)
+        foreach (KeyValuePair<Vector2Int, Vector2> coordinates in neighborCoordinates)
         {
-            if (rooms[coordinate.x, coordinate.y] == null)
+            if (rooms[coordinates.Key.x, coordinates.Key.y] == null)
             {
-                availableNeighbors.Add(coordinate);
+                availableNeighbors.Add(coordinates.Key, coordinates.Value);
             }
         }
 
         int numberOfNeighbors = (int)Random.Range(1, availableNeighbors.Count);
 
-        for(int neighbor = 0; neighbor < numberOfNeighbors; neighbor++)
+        for (int neighbor = 0; neighbor < numberOfNeighbors; neighbor++)
         {
             float random = Random.value;
             float roomFrac = 1.0f / (float)availableNeighbors.Count;
 
-            Vector2Int chosenNeighbor = new Vector2Int(0, 0);
+            Vector2Int chosenNeighborCoordinate = new Vector2Int(0, 0);
+            Vector2 chosenNeighborInstantiation = new Vector2(0, 0);
 
-            foreach(Vector2Int coordinate in availableNeighbors)
+            foreach (KeyValuePair<Vector2Int, Vector2> coordinates in availableNeighbors)
             {
                 if (random < roomFrac)
                 {
-                    chosenNeighbor = coordinate;
+                    chosenNeighborCoordinate = coordinates.Key;
+                    chosenNeighborInstantiation = coordinates.Value;
                     break;
                 }
                 else
@@ -99,20 +122,20 @@ public class RoomGeneration : MonoBehaviour
                 }
             }
 
-            roomsToCreate.Enqueue(new Room(chosenNeighbor));
-            availableNeighbors.Remove(chosenNeighbor);
+            roomsToCreate.Enqueue(new Room(chosenNeighborCoordinate, chosenNeighborInstantiation));
+            availableNeighbors.Remove(chosenNeighborCoordinate);
         }
     }
 
     private void PrintGrid()
     {
-        for(int rowIndex = 0; rowIndex < rooms.GetLength(1); rowIndex++)
+        for (int rowIndex = 0; rowIndex < rooms.GetLength(1); rowIndex++)
         {
             string row = "";
 
-            for(int columnIndex = 0; columnIndex < rooms.GetLength(0); columnIndex++)
+            for (int columnIndex = 0; columnIndex < rooms.GetLength(0); columnIndex++)
             {
-                if(rooms[columnIndex, rowIndex] == null)
+                if (rooms[columnIndex, rowIndex] == null)
                 {
                     row += "X";
                 }
@@ -126,4 +149,31 @@ public class RoomGeneration : MonoBehaviour
         }
 
     }
+
+    private void SpawnRooms()
+    {
+        for(int rowIndex = 0; rowIndex < rooms.GetLength(1); rowIndex++)
+        {
+
+            for (int columnIndex = 0; columnIndex < rooms.GetLength(0); columnIndex++)
+            {
+                if (rooms[columnIndex, rowIndex] != null)
+                {
+                    string roomPrefabName = instance.rooms[columnIndex, rowIndex].PrefabName();
+                    GameObject roomObject = (GameObject)Instantiate(Resources.Load("Prefabs/Rooms/" + roomPrefabName), rooms[columnIndex, rowIndex].instantiationCoordinate, Quaternion.identity);
+                }
+            }
+        }
+    }
+
+    public Room CurrentRoom()
+    {
+        return currentRoom;
+    }
+
+    public void MoveToRoom(Room targetRoom)
+    {
+        currentRoom = targetRoom;
+    }
+
 }

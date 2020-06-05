@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Background
+  - Room
+  - Door
+  - Dungeon
   layers:
   - Default
   - TransparentFX
@@ -49,6 +53,9 @@ TagManager:
     locked: 0
   - name: Collidable
     uniqueID: 2629094219
+    locked: 0
+  - name: Door
+    uniqueID: 1231837535
     locked: 0
   - name: Player&Enemies
     uniqueID: 3871428247
