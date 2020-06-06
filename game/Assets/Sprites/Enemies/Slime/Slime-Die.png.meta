@@ -1,13 +1,15 @@
 fileFormatVersion: 2
-guid: 99386701ddd417242a24e8a79c86b5b5
+guid: 68a863c75831c63469d42480ae673793
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Slime_WalkRight_0
-    21300002: Slime_WalkRight_1
-    21300004: Slime_WalkRight_2
-    21300006: Slime_WalkRight_3
-    21300008: Slime_WalkRight_4
-    21300010: Slime_WalkRight_5
+    21300000: Slime-Die_0
+    21300002: Slime-Die_1
+    21300004: Slime-Die_2
+    21300006: Slime-Die_3
+    21300008: Slime-Die_4
+    21300010: Slime-Die_5
+    21300012: Slime-Die_6
+    21300014: Slime-Die_7
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -75,136 +77,165 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
-    buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Slime_WalkRight_0
+      name: Slime-Die_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 13
+        width: 32
+        height: 17
       alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
+      pivot: {x: 0.5, y: 0.23529412}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3fef331d792eb34e89695c36acec44a
+      spriteID: 9c76455d9bea8814691df5cfecfe5bdb
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime_WalkRight_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 13
-      alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b053eceb43e12d141aa5331b75b558cc
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime_WalkRight_2
+      name: Slime-Die_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 16
-        height: 13
+        width: 32
+        height: 17
       alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
+      pivot: {x: 0.5, y: 0.23529412}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 520dd6e01f9f9fd418c7ae16b6cc9b15
+      spriteID: 1255284fe79024f419b16f25cb49a12d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime_WalkRight_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 13
-      alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 28511ed9cdf61e74e9f277f131b2f97c
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime_WalkRight_4
+      name: Slime-Die_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 16
-        height: 13
+        width: 32
+        height: 17
       alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
+      pivot: {x: 0.5, y: 0.23529412}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1bf6c301ab6a04e4598170500e97f972
+      spriteID: 530b252f711bff64d830c8fa96d39d09
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime_WalkRight_5
+      name: Slime-Die_3
       rect:
         serializedVersion: 2
-        x: 80
+        x: 96
         y: 0
-        width: 16
-        height: 13
+        width: 32
+        height: 17
       alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
+      pivot: {x: 0.5, y: 0.23529412}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f00316bfd8677834a8a7897f03f57bf3
+      spriteID: 550eee3abdf1d444482cb7d9474201a0
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slime-Die_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 17
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23529412}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3a4aa153e4d2c34dad7269c5b1e9e2b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slime-Die_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 17
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23529412}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 726e9c1b63b71594db7fce66459c9c61
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slime-Die_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 17
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23529412}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7425a0065e99cd24c9039783a625fb9f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slime-Die_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 17
+      alignment: 9
+      pivot: {x: 0.5, y: 0.23529412}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3a1c918ab6defc44a811f17fd6fbbde
       vertices: []
       indices: 
       edges: []
@@ -212,7 +243,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a67e3dbe41c01974b9e84d44146d586c
+    spriteID: 9faed5cc752dfe443b2cb8ce31e8215d
     vertices: []
     indices: 
     edges: []
