@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Space]
     [Header("Values:")]
     public float moveSpeed = 4f;
-    
+    private float attackRate = 2f;
+    float timeSinceLastAttack = 0f;
+
     public Vector2 movementDirection;
 
     [Space]
@@ -59,6 +61,32 @@ public class PlayerMovement : MonoBehaviour
     public void MoveThroughDoor(string direction)
     {
         this.gameObject.transform.Translate(doorMovementDirections[direction]);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy" && timeSinceLastAttack >= (1 / attackRate))
+        {
+            collision.gameObject.GetComponent<EnemyFollow>().GetHit(5f);
+            timeSinceLastAttack = 0f;
+        }
+        else
+        {
+            timeSinceLastAttack += Time.deltaTime;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy" && timeSinceLastAttack >= (1 / attackRate))
+        {
+            collision.gameObject.GetComponent<EnemyFollow>().GetHit(5f);
+            timeSinceLastAttack = 0f;
+        }
+        else
+        {
+            timeSinceLastAttack += Time.deltaTime;
+        }
     }
 
 }

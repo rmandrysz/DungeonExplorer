@@ -26,7 +26,7 @@ public class EnterDoor : MonoBehaviour
             //Debug.Log("Door Entered");
 
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>().UpdateTarget(doorPosition);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().MoveThroughDoor(doorPosition);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().MoveThroughDoor(doorPosition);
             
         }
     }

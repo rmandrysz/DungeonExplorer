@@ -1,13 +1,9 @@
 fileFormatVersion: 2
-guid: 99386701ddd417242a24e8a79c86b5b5
+guid: 2547e835c7b2c1345b2316a55a442661
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Slime_WalkRight_0
-    21300002: Slime_WalkRight_1
-    21300004: Slime_WalkRight_2
-    21300006: Slime_WalkRight_3
-    21300008: Slime_WalkRight_4
-    21300010: Slime_WalkRight_5
+    21300000: Slime-Hit_0
+    21300002: Slime-Hit_1
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -75,25 +71,14 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
-    buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Slime_WalkRight_0
+      name: Slime-Hit_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 8
         y: 0
         width: 16
         height: 13
@@ -104,16 +89,16 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3fef331d792eb34e89695c36acec44a
+      spriteID: d05ff005087fb3941a023797aa843c8f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slime_WalkRight_1
+      name: Slime-Hit_1
       rect:
         serializedVersion: 2
-        x: 16
+        x: 40
         y: 0
         width: 16
         height: 13
@@ -124,87 +109,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b053eceb43e12d141aa5331b75b558cc
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime_WalkRight_2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 13
-      alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 520dd6e01f9f9fd418c7ae16b6cc9b15
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime_WalkRight_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 13
-      alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 28511ed9cdf61e74e9f277f131b2f97c
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime_WalkRight_4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 13
-      alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1bf6c301ab6a04e4598170500e97f972
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Slime_WalkRight_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 13
-      alignment: 9
-      pivot: {x: 0.5, y: 0.30769232}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f00316bfd8677834a8a7897f03f57bf3
+      spriteID: 4bc5d9c76a4ad4b44a7bc7b2181933c8
       vertices: []
       indices: 
       edges: []
@@ -212,7 +117,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a67e3dbe41c01974b9e84d44146d586c
+    spriteID: 400999dbb2291bb44a2dca608810b248
     vertices: []
     indices: 
     edges: []

@@ -8,6 +8,7 @@ TagManager:
   - Room
   - Door
   - Dungeon
+  - Enemy
   layers:
   - Default
   - TransparentFX
