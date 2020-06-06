@@ -1,29 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class EnemyFollow : MonoBehaviour
+public class EnemyFollow : Enemy
 {
 
-    public float speed;
+    public new float speed;
 
     private Transform target;
     private Vector2 targetPosition;
-    private float healthPoints = 30f;
-    private bool stopMoving = false;
+    private float maxHealth = 30f;
+    private float currentHealth;
 
     private void Start()
     {
+        currentHealth = maxHealth;
+
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
     // Update is called once per frame
     private void Update()
     {
-        if (!stopMoving)
-        {
-            targetPosition = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-            this.gameObject.GetComponent<Rigidbody2D>().MovePosition(targetPosition);
-        }
+        targetPosition = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        this.gameObject.GetComponent<Rigidbody2D>().MovePosition(targetPosition);
 
         if(target.position.x > this.gameObject.transform.position.x)
         {
@@ -40,9 +40,9 @@ public class EnemyFollow : MonoBehaviour
     public void GetHit(float damage)
     {
         this.gameObject.GetComponent<Animator>().SetTrigger("Hit");
-        healthPoints -= damage;
+        currentHealth -= damage;
 
-        if(healthPoints <= 0)
+        if(currentHealth <= 0)
         {
             Die();
         }
@@ -52,7 +52,7 @@ public class EnemyFollow : MonoBehaviour
 
     public void Die()
     {
-        stopMoving = true;
+        speed = 0f;
         this.gameObject.GetComponent<Animator>().SetBool("IsDead", true);
         GetComponent<Collider2D>().enabled = false;
     }
@@ -60,6 +60,5 @@ public class EnemyFollow : MonoBehaviour
     private void DeleteGameObject()
     {
         Destroy(this.gameObject);
-        Debug.Log("ObjectDestroyed");
     }
 }

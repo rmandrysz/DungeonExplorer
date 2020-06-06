@@ -80,7 +80,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy" && timeSinceLastAttack >= (1 / attackRate))
         {
-            collision.gameObject.GetComponent<EnemyFollow>().GetHit(5f);
+            collision.gameObject.GetComponent<Enemy>().GetDamage(5f);
+            
             timeSinceLastAttack = 0f;
         }
         else
