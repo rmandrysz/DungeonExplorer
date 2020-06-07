@@ -6,11 +6,14 @@ public class PlayerController : MonoBehaviour
 {
     [Space]
     [Header("Values:")]
+    private float baseMoveSpeed;
     public float moveSpeed = 4f;
     private float attackRate = 2f;
     float timeSinceLastAttack = 0f;
 
-    public Vector2 movementDirection;
+    private Vector2 movementDirection;
+    private Vector2 attackAxis;
+    private float attack;
 
     [Space]
     [Header("References:")]
@@ -31,6 +34,7 @@ public class PlayerController : MonoBehaviour
         InitDirections();
 
         timeSinceLastAttack = 1 / attackRate;
+        baseMoveSpeed = moveSpeed;
     }
 
     private void FixedUpdate()
@@ -45,6 +49,14 @@ public class PlayerController : MonoBehaviour
 
         timeSinceLastAttack += Time.deltaTime;
 
+        if (attack != 0 && timeSinceLastAttack >= 1 / attackRate)
+            Attack(attack);
+
+        if (attackAxis != Vector2.zero && timeSinceLastAttack >= 1 / attackRate)
+        {
+            Attack(attackAxis);
+        }
+
     }
 
     private void GetInput()
@@ -52,6 +64,10 @@ public class PlayerController : MonoBehaviour
         movementDirection.x = Input.GetAxisRaw("Horizontal");
         movementDirection.y = Input.GetAxisRaw("Vertical");
         movementDirection.Normalize();
+
+        attackAxis.x = Input.GetAxisRaw("AttackHorizontal");
+        attackAxis.y = Input.GetAxisRaw("AttackVertical");
+        attack = Input.GetAxis("Attack");
     }
 
     private void InitDirections()
@@ -67,6 +83,29 @@ public class PlayerController : MonoBehaviour
         this.gameObject.transform.Translate(doorMovementDirections[direction]);
     }
 
+    private void Attack(Vector2 attackInput)
+    {
+        moveSpeed = 0f;
+
+        timeSinceLastAttack = 0f;
+
+        animator.SetFloat("AttackHorizontal", attackInput.x);
+        animator.SetFloat("AttackVertical", attackInput.y);
+        animator.SetTrigger("Attack");
+    }
+
+    private void Attack(float attackInput)
+    {
+        moveSpeed = 0f;
+
+        timeSinceLastAttack = 0f;
+
+        animator.SetFloat("AttackHorizontal", movementDirection.x);
+        animator.SetFloat("AttackVertical", movementDirection.y);
+        animator.SetTrigger("Attack");
+
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
         //Debug.Log (timeSinceLastAttack >= 1 / attackRate);
@@ -78,6 +117,11 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("Trigger Entered");
         }
         
+    }
+
+    private void ResumeMovement()
+    {
+        moveSpeed = baseMoveSpeed;
     }
 
 }
