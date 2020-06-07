@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         InitDirections();
+
+        timeSinceLastAttack = 1 / attackRate;
     }
 
     private void FixedUpdate()
@@ -40,6 +42,8 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Horizontal", movementDirection.x);
         animator.SetFloat("Vertical", movementDirection.y);
         animator.SetFloat("Speed", movementDirection.sqrMagnitude);
+
+        timeSinceLastAttack += Time.deltaTime;
 
     }
 
@@ -65,29 +69,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy" && timeSinceLastAttack >= (1 / attackRate))
-        {
-            collision.gameObject.GetComponent<EnemyFollow>().GetHit(5f);
-            timeSinceLastAttack = 0f;
-        }
-        else
-        {
-            timeSinceLastAttack += Time.deltaTime;
-        }
-    }
+        //Debug.Log (timeSinceLastAttack >= 1 / attackRate);
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Enemy" && timeSinceLastAttack >= (1 / attackRate))
+        if (collision.gameObject.CompareTag("Enemy") && timeSinceLastAttack >= (1 / attackRate))
         {
             collision.gameObject.GetComponent<Enemy>().GetDamage(5f);
-            
             timeSinceLastAttack = 0f;
+            //Debug.Log("Trigger Entered");
         }
-        else
-        {
-            timeSinceLastAttack += Time.deltaTime;
-        }
+        
     }
 
 }

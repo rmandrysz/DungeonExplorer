@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 739390898315942164}
   - component: {fileID: 739390898315942160}
   - component: {fileID: 739390898315942163}
+  - component: {fileID: 6205418534088427333}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -143,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  trigger: {fileID: 6205418534088427333}
 --- !u!95 &739390898315942163
 Animator:
   serializedVersion: 3
@@ -162,3 +164,29 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &6205418534088427333
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 739390898315942165}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.06}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.23529412}
+    oldSize: {x: 2, y: 1.0625}
+    newSize: {x: 2, y: 1.0625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 0.37}
+  m_EdgeRadius: 0.01

@@ -6,10 +6,10 @@ using UnityEngine;
 public class EnemyFollow : Enemy
 {
 
-    public new float speed;
+    public float speed;
 
     private Transform target;
-    private Vector2 targetPosition;
+    private Vector3 direction;
     private float maxHealth = 30f;
     private float currentHealth;
 
@@ -22,8 +22,9 @@ public class EnemyFollow : Enemy
     // Update is called once per frame
     private void Update()
     {
-        targetPosition = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        this.gameObject.GetComponent<Rigidbody2D>().MovePosition(targetPosition);
+        direction = target.position - transform.position;
+        direction.Normalize();
+        MovePosition(direction);
 
         if(target.position.x > this.gameObject.transform.position.x)
         {
@@ -37,7 +38,7 @@ public class EnemyFollow : Enemy
         this.gameObject.GetComponent<Animator>().SetFloat("Speed", 1);
     }
 
-    public void GetHit(float damage)
+    public override void GetDamage(float damage)
     {
         this.gameObject.GetComponent<Animator>().SetTrigger("Hit");
         currentHealth -= damage;
@@ -50,7 +51,7 @@ public class EnemyFollow : Enemy
         Debug.Log("Hit for" + damage);
     }
 
-    public void Die()
+    public override void Die()
     {
         speed = 0f;
         this.gameObject.GetComponent<Animator>().SetBool("IsDead", true);
@@ -60,5 +61,10 @@ public class EnemyFollow : Enemy
     private void DeleteGameObject()
     {
         Destroy(this.gameObject);
+    }
+
+    private void MovePosition(Vector3 direction)
+    {
+        gameObject.GetComponent<Rigidbody2D>().MovePosition(transform.position + (direction * speed * Time.deltaTime));
     }
 }
