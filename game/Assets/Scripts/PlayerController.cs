@@ -157,7 +157,18 @@ public class PlayerController : MonoBehaviour
             isInvincible = true;
 
             currentHealth -= damage;
+
+            if (currentHealth <= 0)
+            {
+                Invoke("Die", 0.02f);
+            }
         }
+    } //Deal damage to the player object;
+
+    private void Die()
+    {
+        Destroy(this.gameObject);
+        FindObjectOfType<GameManager>().EndGame();
     }
 
     private void ResumeMovement()

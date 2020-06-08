@@ -19,7 +19,6 @@ public class RoomGeneration : MonoBehaviour
     {
         if(instance == null)
         {
-            DontDestroyOnLoad(this.gameObject);
             instance = this;
             numberOfRooms = Random.Range(8, 13);
             //Debug.Log(numberOfRooms);
@@ -28,8 +27,6 @@ public class RoomGeneration : MonoBehaviour
         }
         else
         {
-
-            Input.ResetInputAxes();
             Destroy (this.gameObject);
         }
     }

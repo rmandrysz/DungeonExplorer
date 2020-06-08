@@ -26,20 +26,23 @@ public class EnemyFollow : Enemy
     // Update is called once per frame
     private void Update()
     {
-        direction = target.position - transform.position;
-        direction.Normalize();
-        MovePosition(direction);
-
-        if(target.position.x > this.gameObject.transform.position.x)
+        if (target != null)
         {
-            this.gameObject.GetComponent<Animator>().SetFloat("Horizontal", 1);
-        }
-        else
-        {
-            this.gameObject.GetComponent<Animator>().SetFloat("Horizontal", -1);
-        }
+            direction = target.position - transform.position;
+            direction.Normalize();
+            MovePosition(direction);
 
-        this.gameObject.GetComponent<Animator>().SetFloat("Speed", 1);
+            if (target.position.x > this.gameObject.transform.position.x)
+            {
+                this.gameObject.GetComponent<Animator>().SetFloat("Horizontal", 1);
+            }
+            else
+            {
+                this.gameObject.GetComponent<Animator>().SetFloat("Horizontal", -1);
+            }
+
+            this.gameObject.GetComponent<Animator>().SetFloat("Speed", 1);
+        }
     }
 
     public override void GetDamage(float damage)
