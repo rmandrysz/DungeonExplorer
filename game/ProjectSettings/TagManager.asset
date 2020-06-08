@@ -9,6 +9,7 @@ TagManager:
   - Door
   - Dungeon
   - Enemy
+  - AttackPoint
   layers:
   - Default
   - TransparentFX

@@ -8,8 +8,11 @@ public class PlayerController : MonoBehaviour
     [Header("Values:")]
     private float baseMoveSpeed;
     public float moveSpeed = 4f;
+    public float attackRange;
+    public float attackDamage = 5f;
     private float attackRate = 2f;
     float timeSinceLastAttack = 0f;
+    //public t
 
     private Vector2 movementDirection;
     private Vector2 attackAxis;
@@ -19,6 +22,10 @@ public class PlayerController : MonoBehaviour
     [Header("References:")]
     public Rigidbody2D rb;
     public Animator animator;
+    public LayerMask enemyLayers;
+
+    [Header("Attack Points:")]
+    public List<Transform> attackPoints;
 
     private Dictionary<string, Vector2> doorMovementDirections = new Dictionary<string, Vector2>();
 
@@ -106,17 +113,16 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void DealDamage(int attackPointIndex)
     {
-        //Debug.Log (timeSinceLastAttack >= 1 / attackRate);
 
-        if (collision.gameObject.CompareTag("Enemy") && timeSinceLastAttack >= (1 / attackRate))
+        Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackPoints[attackPointIndex].position, attackRange, enemyLayers);
+
+        foreach (Collider2D enemy in enemiesInRange)
         {
-            collision.gameObject.GetComponent<Enemy>().GetDamage(5f);
-            timeSinceLastAttack = 0f;
-            //Debug.Log("Trigger Entered");
+            enemy.gameObject.GetComponent<Enemy>().GetDamage(attackDamage);
+            Debug.Log("Hit " + enemy.name + " for " + attackDamage);
         }
-        
     }
 
     private void ResumeMovement()
@@ -124,4 +130,9 @@ public class PlayerController : MonoBehaviour
         moveSpeed = baseMoveSpeed;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        foreach (Transform attackPoint in attackPoints)
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
 }
