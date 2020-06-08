@@ -14,6 +14,8 @@ public class EnemyFollow : Enemy
     private float maxHealth = 15f;
     private float currentHealth;
 
+    private float damage = 5f;
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -52,7 +54,6 @@ public class EnemyFollow : Enemy
             Die();
         }
 
-        Debug.Log("Hit for" + damage);
     }
 
     public override void Die()
@@ -75,5 +76,13 @@ public class EnemyFollow : Enemy
     private void ResumeMovement()
     {
         speed = baseSpeed;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerController>().GetDamage(damage);
+        }
     }
 }

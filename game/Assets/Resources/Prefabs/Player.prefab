@@ -172,6 +172,8 @@ MonoBehaviour:
   moveSpeed: 4
   attackRange: 0.35
   attackDamage: 5
+  maxHealth: 30
+  invincibilityDuration: 1
   rb: {fileID: 7996550715415810430}
   animator: {fileID: 7996550715415810428}
   enemyLayers:

@@ -14,11 +14,13 @@ public class PlayerController : MonoBehaviour
     float timeSinceLastAttack = 0f;
     private float attackRate = 1.5f;
 
-    public float invincibilityDuration = 2.5f;
-    private float invincibilityCountdown = 0f;
+    public float maxHealth = 30f;
+    private float currentHealth;
+
+    public float invincibilityDuration = 1f;
+    private float invincibilityCounter = 0f;
     private bool isInvincible = false;
 
-    //public t
 
     private Vector2 movementDirection;
     private Vector2 attackAxis;
@@ -40,14 +42,27 @@ public class PlayerController : MonoBehaviour
     {
         //Input
         GetInput();
+
+        if (isInvincible)
+        {
+            invincibilityCounter -= Time.deltaTime;
+            
+            if (invincibilityCounter <= 0)
+            {
+                isInvincible = false;
+            } 
+        }
+            
     }
 
     private void Start()
     {
+        currentHealth = maxHealth;
+        baseMoveSpeed = moveSpeed;
+
         InitDirections();
 
         timeSinceLastAttack = 1 / attackRate;
-        baseMoveSpeed = moveSpeed;
     }
 
     private void FixedUpdate()
@@ -131,6 +146,20 @@ public class PlayerController : MonoBehaviour
         }
     } //Check enemies in range and deal damage. Used by animation event;
 
+    public void GetDamage(float damage)
+    {
+        if (!isInvincible)
+        {
+            animator.SetTrigger("Hit");
+            Debug.Log("Got hit for " + damage + " damage");
+
+            invincibilityCounter = invincibilityDuration;
+            isInvincible = true;
+
+            currentHealth -= damage;
+        }
+    }
+
     private void ResumeMovement()
     {
         moveSpeed = baseMoveSpeed;
@@ -141,4 +170,5 @@ public class PlayerController : MonoBehaviour
         foreach (Transform attackPoint in attackPoints)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     } //Draw attack point spheres to show range;
+
 }
