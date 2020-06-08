@@ -7,10 +7,11 @@ public class EnemyFollow : Enemy
 {
 
     public float speed;
+    private float baseSpeed;
 
     private Transform target;
     private Vector3 direction;
-    private float maxHealth = 30f;
+    private float maxHealth = 15f;
     private float currentHealth;
 
     private void Start()
@@ -18,6 +19,7 @@ public class EnemyFollow : Enemy
         currentHealth = maxHealth;
 
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        baseSpeed = speed;
     }
     // Update is called once per frame
     private void Update()
@@ -40,11 +42,13 @@ public class EnemyFollow : Enemy
 
     public override void GetDamage(float damage)
     {
+        speed = 0f;
         this.gameObject.GetComponent<Animator>().SetTrigger("Hit");
         currentHealth -= damage;
 
         if(currentHealth <= 0)
         {
+            baseSpeed = 0f;
             Die();
         }
 
@@ -66,5 +70,10 @@ public class EnemyFollow : Enemy
     private void MovePosition(Vector3 direction)
     {
         gameObject.GetComponent<Rigidbody2D>().MovePosition(transform.position + (direction * speed * Time.deltaTime));
+    }
+
+    private void ResumeMovement()
+    {
+        speed = baseSpeed;
     }
 }

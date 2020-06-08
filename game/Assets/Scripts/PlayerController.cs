@@ -8,10 +8,16 @@ public class PlayerController : MonoBehaviour
     [Header("Values:")]
     private float baseMoveSpeed;
     public float moveSpeed = 4f;
+
     public float attackRange;
     public float attackDamage = 5f;
-    private float attackRate = 2f;
     float timeSinceLastAttack = 0f;
+    private float attackRate = 1.5f;
+
+    public float invincibilityDuration = 2.5f;
+    private float invincibilityCountdown = 0f;
+    private bool isInvincible = false;
+
     //public t
 
     private Vector2 movementDirection;
@@ -75,7 +81,7 @@ public class PlayerController : MonoBehaviour
         attackAxis.x = Input.GetAxisRaw("AttackHorizontal");
         attackAxis.y = Input.GetAxisRaw("AttackVertical");
         attack = Input.GetAxis("Attack");
-    }
+    } //Check for input;
 
     private void InitDirections()
     {
@@ -83,12 +89,12 @@ public class PlayerController : MonoBehaviour
         doorMovementDirections.Add("R", new Vector2(7f, 0f));
         doorMovementDirections.Add("T", new Vector2(0f, 6.2f));
         doorMovementDirections.Add("B", new Vector2(0f, -6.2f));
-    }
+    } //Initialize how much to transport the player while moving through door;
 
     public void MoveThroughDoor(string direction)
     {
         this.gameObject.transform.Translate(doorMovementDirections[direction]);
-    }
+    } //Get to the other side of the door;
 
     private void Attack(Vector2 attackInput)
     {
@@ -99,7 +105,7 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("AttackHorizontal", attackInput.x);
         animator.SetFloat("AttackVertical", attackInput.y);
         animator.SetTrigger("Attack");
-    }
+    } //Start appropriate attack animation if activated by the arrow keys;
 
     private void Attack(float attackInput)
     {
@@ -111,7 +117,7 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("AttackVertical", movementDirection.y);
         animator.SetTrigger("Attack");
 
-    }
+    } //Start appropriate attack animation if activated by space bar;
 
     private void DealDamage(int attackPointIndex)
     {
@@ -123,16 +129,16 @@ public class PlayerController : MonoBehaviour
             enemy.gameObject.GetComponent<Enemy>().GetDamage(attackDamage);
             Debug.Log("Hit " + enemy.name + " for " + attackDamage);
         }
-    }
+    } //Check enemies in range and deal damage. Used by animation event;
 
     private void ResumeMovement()
     {
         moveSpeed = baseMoveSpeed;
-    }
+    } //Return to movement after attacking. Used by animation event;
 
     private void OnDrawGizmosSelected()
     {
         foreach (Transform attackPoint in attackPoints)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
+    } //Draw attack point spheres to show range;
 }
