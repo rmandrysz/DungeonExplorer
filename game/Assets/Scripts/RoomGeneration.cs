@@ -26,7 +26,10 @@ public class RoomGeneration : MonoBehaviour
             enemyPrefab = (GameObject) Resources.Load("Prefabs/Enemies/Slime");
             //Debug.Log(numberOfRooms);
             GenerateDungeon();
+
             GameObject player = (GameObject)Instantiate(Resources.Load("Prefabs/Player"));
+            player.GetComponent<PlayerController>()
+                .SetRoom(firstRoomCoord);
         }
         else
         {
@@ -54,7 +57,6 @@ public class RoomGeneration : MonoBehaviour
         Vector2 firstRoomInstantiation = new Vector2(-0.5f, 0);
         Queue<Room> roomsToCreate = new Queue<Room>();
         List<Room> createdRooms = new List<Room>();
-
 
         roomsToCreate.Enqueue(new Room(firstRoomCoord, firstRoomInstantiation));
 
@@ -164,6 +166,8 @@ public class RoomGeneration : MonoBehaviour
                     string roomPrefabName = instance.rooms[columnIndex, rowIndex].PrefabName();
                     GameObject roomObject = (GameObject)Instantiate(Resources.Load("Prefabs/Rooms/" + roomPrefabName), rooms[columnIndex, rowIndex].instantiationCoordinate, Quaternion.identity);
 
+                    rooms[columnIndex, rowIndex].SetGameObject(roomObject);
+
                     if (columnIndex != firstRoomCoord.x || rowIndex != firstRoomCoord.y)
                     {
                         int amountOfEnemies = (int)Random.Range(1, 4);
@@ -191,4 +195,18 @@ public class RoomGeneration : MonoBehaviour
         currentRoom = targetRoom;
     }
 
+    public Room[,] GetRoomArray()
+    {
+        return rooms;
+    } //Return rooms array;
+
+    public Room GetRoom(int x, int y)
+    {
+        return rooms[x, y];
+    } //Return room of given coordinates;
+
+    public Room GetRoom(Vector2Int coords)
+    {
+        return rooms[coords.x, coords.y];
+    }
 }

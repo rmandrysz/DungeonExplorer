@@ -9,6 +9,7 @@ public class Room
     public Vector2Int arrayCoordinate;
     public Dictionary<string, Room> neighbors;
     public Vector2 instantiationCoordinate;
+    private GameObject gameObject;
     private string[,] population;
 
     public Room(int givenX, int givenY, float instantiateX, float instantiateY)
@@ -33,6 +34,7 @@ public class Room
     {
         arrayCoordinate = givenArrayCoordinate;
         neighbors = new Dictionary<string, Room>();
+
 
         instantiationCoordinate = givenInstantiationCoordinate;
 
@@ -164,4 +166,30 @@ public class Room
 
         return createdEnemies;
     }
+
+    public void SetGameObject(GameObject roomObject)
+    {
+        gameObject = roomObject;
+    }
+
+    public void EnableEnemies()
+    {
+        Enemy[] scripts = gameObject.GetComponentsInChildren<Enemy>();
+
+        foreach (Enemy script in scripts)
+        {
+            script.enabled = true;
+        }
+    }
+
+    public void DisableEnemies()
+    {
+        Enemy[] scripts = gameObject.GetComponentsInChildren<Enemy>();
+
+        foreach (Enemy script in scripts)
+        {
+            script.enabled = false;
+        }
+    }
 }
+

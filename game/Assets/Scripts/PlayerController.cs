@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 attackAxis;
     private float attack;
 
+    private Vector2Int currentRoom;
+
     [Space]
     [Header("References:")]
     public Rigidbody2D rb;
@@ -181,5 +183,28 @@ public class PlayerController : MonoBehaviour
         foreach (Transform attackPoint in attackPoints)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     } //Draw attack point spheres to show range;
+
+    public Vector2Int GetRoomCoords()
+    {
+        return currentRoom;
+    } //Get indexes of the room the player currently is in the room array from RoomGeneration script;
+
+    public void ChangeRoom(string direction)
+    {
+        Dictionary<string, Vector2Int> gridMovement = new Dictionary<string, Vector2Int>
+        {
+            ["L"] = new Vector2Int(-1, 0),
+            ["T"] = new Vector2Int(0, 1),
+            ["R"] = new Vector2Int(1, 0),
+            ["B"] = new Vector2Int(0, -1)
+        };
+
+        currentRoom += gridMovement[direction];
+    } //Change the currentRoom value when changing the room;
+
+    public void SetRoom(Vector2Int coords)
+    {
+        currentRoom = coords;
+    } //Set the value of currentRoom variable;
 
 }

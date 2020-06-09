@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  attackRange: 0.35
+  attackRange: 0.5
   attackDamage: 5
   maxHealth: 30
   invincibilityDuration: 1
