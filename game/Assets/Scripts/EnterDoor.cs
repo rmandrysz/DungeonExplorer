@@ -48,4 +48,14 @@ public class EnterDoor : MonoBehaviour
 
         currentRoom.Neighbor(doorPosition).EnableEnemies();
     }
+
+    public void CloseDoors()
+    {
+        externalCollider.enabled = true;
+    }
+
+    public void OpenDoors()
+    {
+        externalCollider.enabled = false;
+    }
 }

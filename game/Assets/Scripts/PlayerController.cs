@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour
                 isInvincible = false;
             } 
         }
+
+        GameObject.FindGameObjectWithTag("Dungeon").GetComponent<RoomGeneration>().GetRoom(currentRoom).ManageDoors(); //Close or open the doors;
             
     }
 
@@ -65,6 +67,7 @@ public class PlayerController : MonoBehaviour
         InitDirections();
 
         timeSinceLastAttack = 1 / attackRate;
+
     }
 
     private void FixedUpdate()
@@ -102,10 +105,10 @@ public class PlayerController : MonoBehaviour
 
     private void InitDirections()
     {
-        doorMovementDirections.Add("L", new Vector2(-7f, 0f));
-        doorMovementDirections.Add("R", new Vector2(7f, 0f));
-        doorMovementDirections.Add("T", new Vector2(0f, 6.2f));
-        doorMovementDirections.Add("B", new Vector2(0f, -6.2f));
+        doorMovementDirections.Add("L", new Vector2(-12f, 0f));
+        doorMovementDirections.Add("R", new Vector2(12f, 0f));
+        doorMovementDirections.Add("T", new Vector2(0f, 11.2f));
+        doorMovementDirections.Add("B", new Vector2(0f, -11.2f));
     } //Initialize how much to transport the player while moving through door;
 
     public void MoveThroughDoor(string direction)
@@ -144,7 +147,6 @@ public class PlayerController : MonoBehaviour
         foreach (Collider2D enemy in enemiesInRange)
         {
             enemy.gameObject.GetComponent<Enemy>().GetDamage(attackDamage);
-            Debug.Log("Hit " + enemy.name + " for " + attackDamage);
         }
     } //Check enemies in range and deal damage. Used by animation event;
 
@@ -153,7 +155,6 @@ public class PlayerController : MonoBehaviour
         if (!isInvincible)
         {
             animator.SetTrigger("Hit");
-            Debug.Log("Got hit for " + damage + " damage");
 
             invincibilityCounter = invincibilityDuration;
             isInvincible = true;
@@ -171,7 +172,7 @@ public class PlayerController : MonoBehaviour
     {
         Destroy(this.gameObject);
         FindObjectOfType<GameManager>().EndGame();
-    }
+    } //Die;
 
     private void ResumeMovement()
     {
