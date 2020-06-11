@@ -24,7 +24,7 @@ public class EnemyFollow : Enemy
         baseSpeed = speed;
     }
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
         if (target != null)
         {
@@ -73,7 +73,7 @@ public class EnemyFollow : Enemy
 
     private void MovePosition(Vector3 direction)
     {
-        gameObject.GetComponent<Rigidbody2D>().MovePosition(transform.position + (direction * speed * Time.deltaTime));
+        gameObject.GetComponent<Rigidbody2D>().MovePosition(transform.position + (direction * speed * Time.fixedDeltaTime));
     }
 
     private void ResumeMovement()

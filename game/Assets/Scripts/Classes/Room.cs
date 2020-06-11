@@ -7,10 +7,17 @@ using UnityEngine.Tilemaps;
 public class Room
 {
     public Vector2Int arrayCoordinate;
-    public Dictionary<string, Room> neighbors;
     public Vector2 instantiationCoordinate;
-    private GameObject gameObject;
+
+    public Dictionary<string, Room> neighbors;
     private string[,] population;
+
+    private GameObject gameObject;
+
+    public List<GameObject> createdEnemies;
+
+    private bool closedDoors = false;
+    private bool openedDoors = true;
 
     public Room(int givenX, int givenY, float instantiateX, float instantiateY)
     {
@@ -18,6 +25,7 @@ public class Room
         instantiationCoordinate = new Vector2(instantiateX, instantiateY);
 
         neighbors = new Dictionary<string, Room>();
+        createdEnemies = new List<GameObject>();
 
         population = new string[9, 9];
 
@@ -34,6 +42,7 @@ public class Room
     {
         arrayCoordinate = givenArrayCoordinate;
         neighbors = new Dictionary<string, Room>();
+        createdEnemies = new List<GameObject>();
 
 
         instantiationCoordinate = givenInstantiationCoordinate;
@@ -52,10 +61,10 @@ public class Room
     public Dictionary<Vector2Int, Vector2> NeighborCoordinates()
     {
         Dictionary<Vector2Int, Vector2> neighborCoordinates = new Dictionary<Vector2Int, Vector2>();
-        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x - 1, this.arrayCoordinate.y), new Vector2 (this.instantiationCoordinate.x - 15f, this.instantiationCoordinate.y));
-        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x + 1, this.arrayCoordinate.y), new Vector2 (this.instantiationCoordinate.x + 15f, this.instantiationCoordinate.y));
-        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x, this.arrayCoordinate.y + 1), new Vector2 (this.instantiationCoordinate.x, this.instantiationCoordinate.y + 15f));
-        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x, this.arrayCoordinate.y - 1), new Vector2 (this.instantiationCoordinate.x, this.instantiationCoordinate.y - 15f));
+        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x - 1, this.arrayCoordinate.y), new Vector2 (this.instantiationCoordinate.x - 20f, this.instantiationCoordinate.y));
+        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x + 1, this.arrayCoordinate.y), new Vector2 (this.instantiationCoordinate.x + 20f, this.instantiationCoordinate.y));
+        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x, this.arrayCoordinate.y + 1), new Vector2 (this.instantiationCoordinate.x, this.instantiationCoordinate.y + 20f));
+        neighborCoordinates.Add (new Vector2Int(this.arrayCoordinate.x, this.arrayCoordinate.y - 1), new Vector2 (this.instantiationCoordinate.x, this.instantiationCoordinate.y - 20f));
 
         return neighborCoordinates;
     }
@@ -150,7 +159,6 @@ public class Room
 
     public List<GameObject> SpawnPopulation(GameObject enemy)
     {
-        List<GameObject> createdEnemies = new List<GameObject>();
         for (int x = 0; x < 9; x++)
         {
             for (int y = 0; y < 9; y++)
@@ -163,7 +171,6 @@ public class Room
                 }
             }
         }
-
         return createdEnemies;
     }
 
@@ -189,6 +196,42 @@ public class Room
         foreach (Enemy script in scripts)
         {
             script.enabled = false;
+        }
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
+    public void ManageDoors()
+    {
+        Enemy[] enemies = gameObject.GetComponentsInChildren<Enemy>();
+        EnterDoor[] doors = gameObject.GetComponentsInChildren<EnterDoor>();
+
+        if (!closedDoors && enemies.Length > 0)
+        {
+
+            foreach (EnterDoor door in doors)
+            {
+                door.GetComponent<Animator>().SetTrigger("Close");
+                door.CloseDoors();
+            }
+
+            closedDoors = true;
+            openedDoors = false;
+            //Debug.Log("Doors closed.");
+        }
+        else if (!openedDoors && enemies.Length == 0)
+        {
+            foreach (EnterDoor door in doors)
+            {
+                door.GetComponent<Animator>().SetTrigger("Open");
+                door.OpenDoors();
+            }
+            openedDoors = true;
+            closedDoors = false;
+            //Debug.Log("Doors opened.");
         }
     }
 }
