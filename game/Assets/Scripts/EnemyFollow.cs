@@ -1,58 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class EnemyFollow : MonoBehaviour
+public class EnemyFollow : Enemy
 {
 
     public float speed;
+    private float baseSpeed;
 
     private Transform target;
-    private Vector2 targetPosition;
-    private float healthPoints = 30f;
-    private bool stopMoving = false;
+    private Vector3 direction;
+    private float maxHealth = 15f;
+    private float currentHealth;
+
+    private float damage = 5f;
 
     private void Start()
     {
+        currentHealth = maxHealth;
+
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        baseSpeed = speed;
     }
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
-        if (!stopMoving)
+        if (target != null)
         {
-            targetPosition = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-            this.gameObject.GetComponent<Rigidbody2D>().MovePosition(targetPosition);
-        }
+            direction = target.position - transform.position;
+            direction.Normalize();
+            MovePosition(direction);
 
-        if(target.position.x > this.gameObject.transform.position.x)
-        {
-            this.gameObject.GetComponent<Animator>().SetFloat("Horizontal", 1);
-        }
-        else
-        {
-            this.gameObject.GetComponent<Animator>().SetFloat("Horizontal", -1);
-        }
+            if (target.position.x > this.gameObject.transform.position.x)
+            {
+                this.gameObject.GetComponent<Animator>().SetFloat("Horizontal", 1);
+            }
+            else
+            {
+                this.gameObject.GetComponent<Animator>().SetFloat("Horizontal", -1);
+            }
 
-        this.gameObject.GetComponent<Animator>().SetFloat("Speed", 1);
+            this.gameObject.GetComponent<Animator>().SetFloat("Speed", 1);
+        }
     }
 
-    public void GetHit(float damage)
+    public override void GetDamage(float damage)
     {
+        speed = 0f;
         this.gameObject.GetComponent<Animator>().SetTrigger("Hit");
-        healthPoints -= damage;
+        currentHealth -= damage;
 
-        if(healthPoints <= 0)
+        if(currentHealth <= 0)
         {
+            baseSpeed = 0f;
             Die();
         }
 
-        Debug.Log("Hit for" + damage);
     }
 
-    public void Die()
+    public override void Die()
     {
-        stopMoving = true;
+        speed = 0f;
         this.gameObject.GetComponent<Animator>().SetBool("IsDead", true);
         GetComponent<Collider2D>().enabled = false;
     }
@@ -60,6 +69,23 @@ public class EnemyFollow : MonoBehaviour
     private void DeleteGameObject()
     {
         Destroy(this.gameObject);
-        Debug.Log("ObjectDestroyed");
+    }
+
+    private void MovePosition(Vector3 direction)
+    {
+        gameObject.GetComponent<Rigidbody2D>().MovePosition(transform.position + (direction * speed * Time.fixedDeltaTime));
+    }
+
+    private void ResumeMovement()
+    {
+        speed = baseSpeed;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerController>().GetDamage(damage);
+        }
     }
 }

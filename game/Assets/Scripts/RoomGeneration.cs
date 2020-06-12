@@ -14,22 +14,25 @@ public class RoomGeneration : MonoBehaviour
     private int numberOfRooms;
     private Room[,] rooms;
     private Room currentRoom;
+    public GameObject enemyPrefab;
+    private Vector2Int firstRoomCoord;
 
     private void Awake()
     {
         if(instance == null)
         {
-            DontDestroyOnLoad(this.gameObject);
             instance = this;
             numberOfRooms = Random.Range(8, 13);
+            enemyPrefab = (GameObject) Resources.Load("Prefabs/Enemies/Slime");
             //Debug.Log(numberOfRooms);
             GenerateDungeon();
+
             GameObject player = (GameObject)Instantiate(Resources.Load("Prefabs/Player"));
+            player.GetComponent<PlayerController>()
+                .SetRoom(firstRoomCoord);
         }
         else
         {
-
-            Input.ResetInputAxes();
             Destroy (this.gameObject);
         }
     }
@@ -50,11 +53,10 @@ public class RoomGeneration : MonoBehaviour
         int gridSize = 3 * numberOfRooms;
         rooms = new Room[gridSize, gridSize];
 
-        Vector2Int firstRoomCoord = new Vector2Int((gridSize / 2) - 1, (gridSize / 2) - 1);
+        firstRoomCoord = new Vector2Int((gridSize / 2) - 1, (gridSize / 2) - 1);
         Vector2 firstRoomInstantiation = new Vector2(-0.5f, 0);
         Queue<Room> roomsToCreate = new Queue<Room>();
         List<Room> createdRooms = new List<Room>();
-
 
         roomsToCreate.Enqueue(new Room(firstRoomCoord, firstRoomInstantiation));
 
@@ -80,7 +82,9 @@ public class RoomGeneration : MonoBehaviour
                     room.Connect(neighbor);
                 }
             }
+
         }
+
 
         return rooms[firstRoomCoord.x, firstRoomCoord.y];
     }
@@ -161,6 +165,21 @@ public class RoomGeneration : MonoBehaviour
                 {
                     string roomPrefabName = instance.rooms[columnIndex, rowIndex].PrefabName();
                     GameObject roomObject = (GameObject)Instantiate(Resources.Load("Prefabs/Rooms/" + roomPrefabName), rooms[columnIndex, rowIndex].instantiationCoordinate, Quaternion.identity);
+
+                    rooms[columnIndex, rowIndex].SetGameObject(roomObject);
+
+                    if (columnIndex != firstRoomCoord.x || rowIndex != firstRoomCoord.y)
+                    {
+                        int amountOfEnemies = (int)Random.Range(1, 4);
+                        rooms[columnIndex, rowIndex].PlaceEnemies(amountOfEnemies);
+
+                        List<GameObject> enemiesSpawned = rooms[columnIndex, rowIndex].SpawnPopulation(enemyPrefab);
+                        foreach (GameObject enemy in enemiesSpawned)
+                        {
+                            enemy.transform.parent = roomObject.transform;
+                            enemy.GetComponent<Enemy>().enabled = false;
+                        }
+                    }
                 }
             }
         }
@@ -176,4 +195,18 @@ public class RoomGeneration : MonoBehaviour
         currentRoom = targetRoom;
     }
 
+    public Room[,] GetRoomArray()
+    {
+        return rooms;
+    } //Return rooms array;
+
+    public Room GetRoom(int x, int y)
+    {
+        return rooms[x, y];
+    } //Return room of given coordinates;
+
+    public Room GetRoom(Vector2Int coords)
+    {
+        return rooms[coords.x, coords.y];
+    }
 }

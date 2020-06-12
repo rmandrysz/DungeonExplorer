@@ -25,9 +25,37 @@ public class EnterDoor : MonoBehaviour
         {
             //Debug.Log("Door Entered");
 
-            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>().UpdateTarget(doorPosition);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().MoveThroughDoor(doorPosition);
+            ChangeRoom();
             
         }
+    }
+
+    private void ChangeRoom()
+    {
+        PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraController>().UpdateTarget(doorPosition);
+        playerController.MoveThroughDoor(doorPosition);
+
+        RoomGeneration roomGeneration = GameObject.FindGameObjectWithTag("Dungeon").GetComponent<RoomGeneration>();
+
+        Room currentRoom = roomGeneration.GetRoom (playerController.GetRoomCoords());
+
+        if(currentRoom != null)
+            currentRoom.DisableEnemies();
+
+        playerController.ChangeRoom(doorPosition);
+
+        currentRoom.Neighbor(doorPosition).EnableEnemies();
+    }
+
+    public void CloseDoors()
+    {
+        externalCollider.enabled = true;
+    }
+
+    public void OpenDoors()
+    {
+        externalCollider.enabled = false;
     }
 }
