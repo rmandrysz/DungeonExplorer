@@ -128,6 +128,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 134081162, guid: 49dddd0792cb6d444993efe29fb6b77a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 134081162, guid: 49dddd0792cb6d444993efe29fb6b77a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1097250017, guid: 49dddd0792cb6d444993efe29fb6b77a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 173382571688343252, guid: 49dddd0792cb6d444993efe29fb6b77a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -187,11 +199,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LevelLoader
-      objectReference: {fileID: 0}
-    - target: {fileID: 5068731414422262747, guid: 49dddd0792cb6d444993efe29fb6b77a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49dddd0792cb6d444993efe29fb6b77a, type: 3}

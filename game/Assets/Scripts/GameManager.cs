@@ -34,6 +34,6 @@ public class GameManager : MonoBehaviour
     private void Restart()
     {
         endGame = false;
-        GameObject.FindGameObjectWithTag("LevelLoader").GetComponent<LevelLoader>().LoadGame();
+        GameObject.FindGameObjectWithTag("LevelLoader").GetComponent<LevelLoader>().ReloadGame();
     }
 }
