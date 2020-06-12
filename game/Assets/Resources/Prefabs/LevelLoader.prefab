@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 5068731414422262749}
   - component: {fileID: 5068731414422262748}
   - component: {fileID: 1408904267}
+  - component: {fileID: 236357509}
   m_Layer: 0
   m_Name: Sidewipe
   m_TagString: Untagged
@@ -239,3 +240,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &236357509
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5068731414422262746}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
