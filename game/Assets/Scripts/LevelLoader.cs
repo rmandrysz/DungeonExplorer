@@ -11,10 +11,16 @@ public class LevelLoader : MonoBehaviour
     public float transitionTime = 1f;
     public GameObject loadingScreen;
     public Slider slider;
+    private int mainMenuIndex = 0;
     public void ReloadGame()
     {
  
         StartCoroutine(ReloadScene());
+    }
+
+    public void LoadMenu()
+    {
+        StartCoroutine(LoadScene(mainMenuIndex));
     }
 
 
@@ -34,6 +40,13 @@ public class LevelLoader : MonoBehaviour
             yield return null;
         }
 
+    }
+
+    IEnumerator LoadScene(int sceneIndex)
+    {
+        animator.SetTrigger("Start");
+        yield return new WaitForSeconds(transitionTime);
+        SceneManager.LoadScene(sceneIndex);
     }
 
     IEnumerator ReloadScene()

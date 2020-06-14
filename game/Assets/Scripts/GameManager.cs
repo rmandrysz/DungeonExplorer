@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         endGame = true;
     }
 
-    private void Restart()
+    public void Restart()
     {
         endGame = false;
         GameObject.FindGameObjectWithTag("LevelLoader").GetComponent<LevelLoader>().ReloadGame();
