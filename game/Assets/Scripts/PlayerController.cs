@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D rb;
     public Animator animator;
     public LayerMask enemyLayers;
+    private Healthbar healthbar;
 
     [Header("Attack Points:")]
     public List<Transform> attackPoints;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth = maxHealth;
         baseMoveSpeed = moveSpeed;
+        healthbar = GameObject.FindGameObjectWithTag("Healthbar").GetComponent<Healthbar>();
 
         InitDirections();
 
@@ -72,8 +74,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector2 positionUpdate = rb.position + movementDirection * moveSpeed * Time.fixedDeltaTime;
         //Movement
-        rb.MovePosition(rb.position + movementDirection * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(positionUpdate);
 
         //Animation
         animator.SetFloat("Horizontal", movementDirection.x);
@@ -124,6 +127,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetFloat("AttackHorizontal", attackInput.x);
         animator.SetFloat("AttackVertical", attackInput.y);
+        movementDirection = attackInput;
         animator.SetTrigger("Attack");
     } //Start appropriate attack animation if activated by the arrow keys;
 
@@ -138,6 +142,7 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Attack");
 
     } //Start appropriate attack animation if activated by space bar;
+
 
     private void DealDamage(int attackPointIndex)
     {
@@ -160,6 +165,8 @@ public class PlayerController : MonoBehaviour
             isInvincible = true;
 
             currentHealth -= damage;
+            healthbar.SetHealth((int)currentHealth);
+
 
             if (currentHealth <= 0)
             {
@@ -178,13 +185,14 @@ public class PlayerController : MonoBehaviour
     {
         moveSpeed = baseMoveSpeed;
     } //Return to movement after attacking. Used by animation event;
-
+    
+    /*
     private void OnDrawGizmosSelected()
     {
         foreach (Transform attackPoint in attackPoints)
             Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     } //Draw attack point spheres to show range;
-
+    */
     public Vector2Int GetRoomCoords()
     {
         return currentRoom;

@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - AttackPoint
   - LevelLoader
+  - Healthbar
   layers:
   - Default
   - TransparentFX
