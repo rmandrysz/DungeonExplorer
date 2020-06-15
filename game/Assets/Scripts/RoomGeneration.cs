@@ -16,6 +16,7 @@ public class RoomGeneration : MonoBehaviour
     private Room currentRoom;
     public GameObject enemyPrefab;
     private Vector2Int firstRoomCoord;
+    private List<Room> createdRooms;
 
     private void Awake()
     {
@@ -56,7 +57,7 @@ public class RoomGeneration : MonoBehaviour
         firstRoomCoord = new Vector2Int((gridSize / 2) - 1, (gridSize / 2) - 1);
         Vector2 firstRoomInstantiation = new Vector2(-0.5f, 0);
         Queue<Room> roomsToCreate = new Queue<Room>();
-        List<Room> createdRooms = new List<Room>();
+        createdRooms = new List<Room>();
 
         roomsToCreate.Enqueue(new Room(firstRoomCoord, firstRoomInstantiation));
 
@@ -166,21 +167,18 @@ public class RoomGeneration : MonoBehaviour
                     string roomPrefabName = instance.rooms[columnIndex, rowIndex].PrefabName();
                     GameObject roomObject = (GameObject)Instantiate(Resources.Load("Prefabs/Rooms/" + roomPrefabName), rooms[columnIndex, rowIndex].instantiationCoordinate, Quaternion.identity);
 
-                    rooms[columnIndex, rowIndex].SetGameObject(roomObject);
-
-                    if (columnIndex != firstRoomCoord.x || rowIndex != firstRoomCoord.y)
-                    {
-                        int amountOfEnemies = (int)Random.Range(1, 4);
-                        rooms[columnIndex, rowIndex].PlaceEnemies(amountOfEnemies);
-
-                        List<GameObject> enemiesSpawned = rooms[columnIndex, rowIndex].SpawnPopulation(enemyPrefab);
-                        foreach (GameObject enemy in enemiesSpawned)
-                        {
-                            enemy.transform.parent = roomObject.transform;
-                            enemy.GetComponent<Enemy>().enabled = false;
-                        }
-                    }
+                    rooms[columnIndex, rowIndex].SetGameObject(roomObject.transform);                                        
                 }
+            }
+        }
+
+        SpawnHatch();
+
+        foreach (Room room in rooms)
+        {
+            if (room!= null && room != rooms[firstRoomCoord.x, firstRoomCoord.y])
+            {
+                SpawnEnemiesInRoom(room);
             }
         }
     }
@@ -208,5 +206,25 @@ public class RoomGeneration : MonoBehaviour
     public Room GetRoom(Vector2Int coords)
     {
         return rooms[coords.x, coords.y];
+    }
+
+    public void SpawnEnemiesInRoom(Room room)
+    {
+        int amountOfEnemies = (int)Random.Range(1, 6);
+        room.PlaceEnemies(amountOfEnemies);
+
+        List<GameObject> enemiesSpawned = room.SpawnPopulation(enemyPrefab);
+        foreach (GameObject enemy in enemiesSpawned)
+        {
+            enemy.transform.parent = room.GetTransform();
+            enemy.GetComponent<Enemy>().enabled = false;
+        }
+    }
+
+    public void SpawnHatch()
+    {
+        int index = Random.Range(1, createdRooms.Count);
+        Room room = createdRooms[index];
+        room.PlaceHatch();
     }
 }

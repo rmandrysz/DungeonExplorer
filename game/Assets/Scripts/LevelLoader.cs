@@ -10,9 +10,15 @@ public class LevelLoader : MonoBehaviour
     public Animator animator;
     public float transitionTime = 1f;
     public GameObject loadingScreen;
+    private GameManager gameManager;
     public Slider slider;
     private int mainMenuIndex = 0;
-    public void ReloadGame()
+
+    private void Start()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+    }
+    public void RestartGame()
     {
  
         StartCoroutine(ReloadScene());
@@ -21,9 +27,13 @@ public class LevelLoader : MonoBehaviour
     public void LoadMenu()
     {
         StartCoroutine(LoadScene(mainMenuIndex));
+        gameManager.ResetPoints();
     }
 
-
+    public void NextFloor()
+    {
+        StartCoroutine(ReloadScene());
+    }
     IEnumerator LoadSceneAsync(int sceneIndex)
     {
 
