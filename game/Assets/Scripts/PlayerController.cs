@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
     float timeSinceLastAttack = 0f;
     private float attackRate = 1.5f;
 
-    public float maxHealth = 30f;
-    private float currentHealth;
+    public static float maxHealth = 30f;
+    private static float currentHealth;
 
     public float invincibilityDuration = 1f;
     private float invincibilityCounter = 0f;
@@ -35,10 +35,13 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyLayers;
     private Healthbar healthbar;
 
+    private PlayerController instance;
+
     [Header("Attack Points:")]
     public List<Transform> attackPoints;
 
     private Dictionary<string, Vector2> doorMovementDirections = new Dictionary<string, Vector2>();
+
 
     // Update is called once per frame
     void Update()
@@ -216,4 +219,13 @@ public class PlayerController : MonoBehaviour
         currentRoom = coords;
     } //Set the value of currentRoom variable;
 
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public void SetCurrentHealth(float value)
+    {
+        currentHealth = value;
+    }
 }

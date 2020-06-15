@@ -13,6 +13,7 @@ public class Room
     private string[,] population;
 
     private GameObject gameObject;
+    private Transform transform;
 
     public List<GameObject> createdEnemies;
 
@@ -120,6 +121,11 @@ public class Room
         }
     }
 
+    public void PlaceHatch()
+    {
+        population[(int)Mathf.Ceil(population.GetLength(0) / 2), (int)Mathf.Ceil(population.GetLength(1) / 2)] = "Hatch";
+    }
+
     private List<Vector2Int> FindFreeArea(Vector2Int size)
     {
         List<Vector2Int> area = new List<Vector2Int>();
@@ -169,14 +175,23 @@ public class Room
                     prefab.transform.position = new Vector2((float)x + instantiationCoordinate.x - 4 + 0.5f, (float)y + instantiationCoordinate.y - 4 - 0.5f);
                     createdEnemies.Add(prefab);
                 }
+
+                if (population[x, y] == "Hatch")
+                {
+                    GameObject prefab = (GameObject)Resources.Load("Prefabs/Doors/Hatch");
+                    GameObject hatch = Object.Instantiate(prefab);
+                    hatch.transform.parent = transform;
+                    hatch.transform.localPosition = new Vector2(0.5f, -0.5f);
+                }
             }
         }
         return createdEnemies;
     }
 
-    public void SetGameObject(GameObject roomObject)
+    public void SetGameObject(Transform trans)
     {
-        gameObject = roomObject;
+        gameObject = trans.gameObject;
+        transform = trans;
     }
 
     public void EnableEnemies()
@@ -199,23 +214,23 @@ public class Room
         }
     }
 
-    public GameObject GetGameObject()
+    public Transform GetTransform()
     {
-        return gameObject;
+        return transform;
     }
 
     public void ManageDoors()
     {
         Enemy[] enemies = gameObject.GetComponentsInChildren<Enemy>();
-        EnterDoor[] doors = gameObject.GetComponentsInChildren<EnterDoor>();
+        Door[] doors = gameObject.GetComponentsInChildren<Door>();
 
         if (!closedDoors && enemies.Length > 0)
         {
 
-            foreach (EnterDoor door in doors)
+            foreach (Door door in doors)
             {
                 door.GetComponent<Animator>().SetTrigger("Close");
-                door.CloseDoors();
+                door.Close();
             }
 
             closedDoors = true;
@@ -224,13 +239,15 @@ public class Room
         }
         else if (!openedDoors && enemies.Length == 0)
         {
-            foreach (EnterDoor door in doors)
+            foreach (Door door in doors)
             {
                 door.GetComponent<Animator>().SetTrigger("Open");
-                door.OpenDoors();
+                door.Open();
             }
             openedDoors = true;
             closedDoors = false;
+
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ClearRoom();
             //Debug.Log("Doors opened.");
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EnterDoor : MonoBehaviour
+public class EnterDoor : Door
 {
 
     public string doorPosition;
@@ -49,12 +49,12 @@ public class EnterDoor : MonoBehaviour
         currentRoom.Neighbor(doorPosition).EnableEnemies();
     }
 
-    public void CloseDoors()
+    public override void Close()
     {
         externalCollider.enabled = true;
     }
 
-    public void OpenDoors()
+    public override void Open()
     {
         externalCollider.enabled = false;
     }
