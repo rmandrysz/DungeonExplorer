@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
